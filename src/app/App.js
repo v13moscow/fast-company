@@ -1,7 +1,6 @@
 import React,{useState} from "react"
 import Users from './components/users'
 import SearchStatus from './components/searchStatus'
-import Context from '../context'
 import api from './api'
 
 const App = () =>{
@@ -11,10 +10,21 @@ const App = () =>{
     setUsers(users.filter(user => user._id !== id))
   }
   const hendleToggBookMark = (id) => {
-console.log('id');
+
+    const newToggBookMark = users.map(item => {
+      if (item._id !== id) {
+        return item
+      }
+      return {
+        ...item,
+        bookmark: !item.bookmark
+      }
+    })
+    setUsers(newToggBookMark)
+//console.log(id);
   }
 return(
-  <Context.Provider value={{users}}>
+  
     <div>
       <SearchStatus 
         length={users.length}
@@ -25,7 +35,7 @@ return(
         onToggBookMark={hendleToggBookMark}
       />
     </div>
-  </Context.Provider>
+
 )
 
 }

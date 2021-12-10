@@ -2,14 +2,14 @@ import React from 'react'
 import Qualitie from './qualitie'
 import BookMark from './bookmark'
 
-const User = ({ name,qualities,profession,completedMeetings,rate,_id,onDelete,onToggBookMark}) => {
+const User = (props) => {
 
   return(
     <>
-    <tr key={_id}>
-                <td>{name}</td>
+    <tr key={props._id}>
+                <td>{props.name}</td>
                 <td>
-                  {qualities.map((item) =>(
+                  {props.qualities.map((item) =>(
                     <Qualitie 
                     key={item._id}
                     color={item.color}
@@ -17,16 +17,16 @@ const User = ({ name,qualities,profession,completedMeetings,rate,_id,onDelete,on
                     />
                   ))}
                 </td>
-                <td>{profession.name}</td>
-                <td>{completedMeetings}</td>
-                <td>{rate}/5</td>
+                <td>{props.profession.name}</td>
+                <td>{props.completedMeetings}</td>
+                <td>{props.rate}/5</td>
                 <td><BookMark 
-                onToggBookMark={onToggBookMark}
-                _id={_id}
+                bookmark={props.bookmark}
+                onToggle={() => props.onToggBookMark(props._id)}//Передача id в Арр
                 /></td>
                 <td><button
                       className="btn btn-danger"
-                      onClick={() => onDelete(_id)}
+                      onClick={() => props.onDelete(props._id)}
                       >Delete</button>
                 </td>
               </tr>

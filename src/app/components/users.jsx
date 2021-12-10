@@ -25,15 +25,9 @@ const {usersApp} = props
             {usersApp.map((user) =>(   
               <User 
               key={user._id}
-              name={user.name}
-              qualities={user.qualities}
-              profession={user.profession}
-              completedMeetings={user.completedMeetings}
-              rate={user.rate}
-              _id={user._id}
               onDelete={props.onDelete}
               onToggBookMark={props.onToggBookMark}
-              
+              {...user}
               />
             ))}
           </tbody>

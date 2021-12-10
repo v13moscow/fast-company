@@ -1,15 +1,13 @@
-import React,{useContext} from 'react'
-import Context from '../../context'
+import React from 'react'
 
-const BookMark = (onToggBookMark, _id) => {
-  const{ users } = useContext(Context)
-  console.log(users[0]);
+const BookMark = (props) => {
+  const changeBookClass = (bookmark) => {
+    return bookmark ? 'bi bi-bookmark-fill': 'bi bi-bookmark'
+    }
 return(
   <div>
-    <button onClick={()=>onToggBookMark(_id)}><i className="bi bi-bookmark"></i></button>
+    <button onClick={props.onToggle}><i className={changeBookClass(props.bookmark)}></i></button>
   </div>
 )
 }
 export default BookMark
-
-//{status, ...rest}
