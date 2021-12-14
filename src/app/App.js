@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Users from "./components/users";
-import SearchStatus from "./components/searchStatus";
 import api from "./api";
 import PropTypes from "prop-types";
 
 const App = () => {
   const [users, setUsers] = useState(api.users.fetchAll());
 
+  useEffect(() => console.log(api.users.fetchAll()));
+
   const handleDelete = (id) => {
     setUsers(users.filter((user) => user._id !== id));
   };
+
   const hendleToggBookMark = (id) => {
     const newToggBookMark = users.map((item) => {
       if (item._id !== id) {
@@ -24,7 +26,6 @@ const App = () => {
   };
   return (
     <div>
-      <SearchStatus length={users.length} />
       <Users
         usersApp={users}
         onDelete={handleDelete}

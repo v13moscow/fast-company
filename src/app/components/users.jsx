@@ -1,24 +1,57 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import User from "./user";
 import { paginate } from "../utils/paginate";
 import Pagination from "./pagination";
+import GroupList from "./groupList";
+import SearchStatus from "./searchStatus";
+import api from "../api";
 import PropTypes from "prop-types";
 
 const Users = (props) => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [professions, setProfession] = useState();
+  const [selectedProf, setSelectedProf] = useState();
   const { usersApp } = props;
-  const count = usersApp.length;
   const pageSize = 4;
+  useEffect(() => {
+    console.log(api.professions.fetchAll());
+    api.professions.fetchAll().then((data) => setProfession(data));
+  }, []);
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedProf]);
+  const handleProfessionSelect = item => {
+    setSelectedProf(item);
+  };
   const handlePageChange = (pageIndex) => {
     setCurrentPage(pageIndex);
   };
-
-  const userGrop = paginate(usersApp, currentPage, pageSize);
-
+  const filteredProf = selectedProf
+    ? usersApp.filter(item => item.profession === selectedProf)
+    : usersApp;
+  const count = filteredProf.length;
+  const userGrop = paginate(filteredProf, currentPage, pageSize);
+  const clearFilter = () => {
+    setSelectedProf();
+  };
   return (
-    <>
-      {count > 0 && (
-        <div>
+    <div className="d-flex">
+      {professions &&
+      <div className="d-flex flex-column flex-shrink-0 p-3">
+        <GroupList
+          selectedItem={selectedProf}
+          items={professions}
+          onItemSelect={handleProfessionSelect}
+        />
+        <button
+          className="btn btn-secondary mt-2"
+          onClick={clearFilter}
+        >Сброс фильтрации</button>
+      </div>
+      }
+      <div className="d-flex flex-column">
+        <SearchStatus length={count} />
+        {count > 0 && (
           <table className="table">
             <thead>
               <tr>
@@ -41,6 +74,8 @@ const Users = (props) => {
               ))}
             </tbody>
           </table>
+        )}
+        <div className="d-flex justify-content-center">
           <Pagination
             itemsCount={count}
             pageSize={pageSize}
@@ -48,8 +83,8 @@ const Users = (props) => {
             currentPage={currentPage}
           />
         </div>
-      )}
-    </>
+      </div>
+    </div>
   );
 };
 Users.propTypes = {
