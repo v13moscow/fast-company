@@ -4,9 +4,11 @@ import api from "./api";
 import PropTypes from "prop-types";
 
 const App = () => {
-  const [users, setUsers] = useState(api.users.fetchAll());
+  const [users, setUsers] = useState();
 
-  useEffect(() => console.log(api.users.fetchAll()));
+  useEffect(() => {
+    api.users.fetchAll().then(data => setUsers(data));
+  }, []);
 
   const handleDelete = (id) => {
     setUsers(users.filter((user) => user._id !== id));
@@ -26,11 +28,11 @@ const App = () => {
   };
   return (
     <div>
-      <Users
+      {users && <Users
         usersApp={users}
         onDelete={handleDelete}
         onToggBookMark={hendleToggBookMark}
-      />
+      />}
     </div>
   );
 };
