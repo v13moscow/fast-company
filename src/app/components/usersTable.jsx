@@ -7,12 +7,23 @@ const UserTable = (props) => {
     <table className="table">
       <thead>
         <tr>
-          <th scope="col">Имя</th>
+          <th onClick={() => props.onSort("name")} scope="col">
+            Имя
+          </th>
           <th scope="col">Качества</th>
-          <th scope="col">Профессия</th>
-          <th scope="col">Встретился, раз</th>
-          <th scope="col">Оценка</th>
-          <th scope="col">Избранное</th>
+          <th onClick={() => props.onSort("profession.name")} scope="col">
+            Профессия
+          </th>
+          <th onClick={() => props.onSort("completedMeetings")} scope="col">
+            Встретился, раз
+          </th>
+          <th onClick={() => props.onSort("rate")} scope="col">
+            Оценка
+          </th>
+          <th onClick={() => props.onSort("bookmark")} scope="col">
+            Избранное
+          </th>
+          <th />
         </tr>
       </thead>
       <tbody>
@@ -31,6 +42,7 @@ const UserTable = (props) => {
 UserTable.propTypes = {
   users: PropTypes.array.isRequired,
   onDelete: PropTypes.func.isRequired,
-  onToggBookMark: PropTypes.func.isRequired
+  onToggBookMark: PropTypes.func.isRequired,
+  onSort: PropTypes.func.isRequired
 };
 export default UserTable;

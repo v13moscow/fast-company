@@ -7,7 +7,7 @@ const App = () => {
   const [users, setUsers] = useState();
 
   useEffect(() => {
-    api.users.fetchAll().then(data => setUsers(data));
+    api.users.fetchAll().then((data) => setUsers(data));
   }, []);
 
   const handleDelete = (id) => {
@@ -28,11 +28,13 @@ const App = () => {
   };
   return (
     <div>
-      {users && <Users
-        usersApp={users}
-        onDelete={handleDelete}
-        onToggBookMark={hendleToggBookMark}
-      />}
+      {users && (
+        <Users
+          usersApp={users}
+          onDelete={handleDelete}
+          onToggBookMark={hendleToggBookMark}
+        />
+      )}
     </div>
   );
 };
