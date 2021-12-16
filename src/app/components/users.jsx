@@ -29,14 +29,7 @@ const Users = (props) => {
     setCurrentPage(pageIndex);
   };
   const handleSort = (item) => {
-    if (sortBy.iter === item) {
-      setSortBy((prevState) => ({
-        ...prevState,
-        order: prevState.order === "asc" ? "desc" : "asc"
-      }));
-    } else {
-      setSortBy({ iter: item, order: "asc" });
-    }
+    setSortBy(item);
   };
   const filteredUsers = selectedProf
     ? usersApp.filter((item) => item.profession === selectedProf)
@@ -69,6 +62,7 @@ const Users = (props) => {
             onDelete={props.onDelete}
             onToggBookMark={props.onToggBookMark}
             onSort={handleSort}
+            currentSort={sortBy}
           />
         )}
         <div className="d-flex justify-content-center">
