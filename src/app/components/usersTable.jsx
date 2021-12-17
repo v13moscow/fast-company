@@ -1,42 +1,22 @@
 import React from "react";
 import PropTypes from "prop-types";
 import User from "./user";
+import TableHeader from "./tableHeader";
 
 const UserTable = (props) => {
-  const { currentSort } = props;
-  const handleSort = (item) => {
-    if (currentSort.iter === item) {
-      props.onSort({
-        ...currentSort,
-        order: currentSort.order === "asc" ? "desc" : "asc"
-      });
-    } else {
-      props.onSort({ iter: item, order: "asc" });
-    }
+  const { selectedSopt } = props;
+  const columns = {
+    name: { iter: "name", name: "Имя" },
+    qualities: { name: "Качества" },
+    professions: { iter: "profession.name", name: "Профессия" },
+    completedMeetings: { iter: "completedMeetings", name: "Встретился, раз" },
+    rate: { iter: "rate", name: "Оценка" },
+    bookmark: { iter: "bookmark", name: "Избранное" },
+    delete: {}
   };
   return (
     <table className="table">
-      <thead>
-        <tr>
-          <th onClick={() => handleSort("name")} scope="col">
-            Имя
-          </th>
-          <th scope="col">Качества</th>
-          <th onClick={() => handleSort("profession.name")} scope="col">
-            Профессия
-          </th>
-          <th onClick={() => handleSort("completedMeetings")} scope="col">
-            Встретился, раз
-          </th>
-          <th onClick={() => handleSort("rate")} scope="col">
-            Оценка
-          </th>
-          <th onClick={() => handleSort("bookmark")} scope="col">
-            Избранное
-          </th>
-          <th />
-        </tr>
-      </thead>
+      <TableHeader {...{ selectedSopt, ...props, columns }}/>
       <tbody>
         {props.users.map((user) => (
           <User
@@ -55,6 +35,6 @@ UserTable.propTypes = {
   onDelete: PropTypes.func.isRequired,
   onToggBookMark: PropTypes.func.isRequired,
   onSort: PropTypes.func.isRequired,
-  currentSort: PropTypes.object.isRequired
+  selectedSopt: PropTypes.object.isRequired
 };
 export default UserTable;
