@@ -3,11 +3,11 @@ import PropTypes from "prop-types";
 
 const TableHeader = ({ onSort, selectedSort, columns }) => {
   const handleSort = (item) => { // DZ 3 6,00 if(order === 'asc')
-    if (selectedSort.iter === item) {
+    if (selectedSort.path === item) {
       console.log(selectedSort.order);
       onSort({ ...selectedSort, order: selectedSort.order === "asc" ? "desc" : "asc" });
     } else {
-      onSort({ iter: item, order: "asc" });
+      onSort({ path: item, order: "asc" });
     }
   };
   return (
@@ -15,9 +15,9 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
       <tr>
         {Object.keys(columns).map(column => (
           <th key={column}
-            onClick={columns[column].iter ? () => handleSort(columns[column].iter) : undefined}
+            onClick={columns[column].path ? () => handleSort(columns[column].path) : undefined}
             scope="col"
-            {...{ role: columns[column].iter && "button" }}
+            {...{ role: columns[column].path && "button" }}
           >
             <i className="bi bi-caret-down-fill"></i>
             {columns[column].name}
