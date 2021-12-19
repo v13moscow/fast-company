@@ -28,7 +28,7 @@ const Users = ({ users: allUsers, ...rest }) => {
   const handlePageChange = (pageIndex) => {
     setCurrentPage(pageIndex);
   };
-  const handleSort = (item) => { // DZ 3 6,00 if(order === 'asc')
+  const handleSort = (item) => {
     setSortBy(item);
   };
   const filteredUsers = selectedProf
@@ -67,7 +67,7 @@ const Users = ({ users: allUsers, ...rest }) => {
             users={usersCrop}
             {...rest}
             onSort={handleSort}
-            currentSort={sortBy}
+            selectedSort={sortBy}
           />
         )}
         <div className="d-flex justify-content-center">
