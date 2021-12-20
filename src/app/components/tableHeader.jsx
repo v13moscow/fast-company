@@ -4,12 +4,22 @@ import PropTypes from "prop-types";
 const TableHeader = ({ onSort, selectedSort, columns }) => {
   const handleSort = (item) => { // DZ 3 6,00 if(order === 'asc')
     if (selectedSort.path === item) {
-      console.log(selectedSort.order);
       onSort({ ...selectedSort, order: selectedSort.order === "asc" ? "desc" : "asc" });
     } else {
       onSort({ path: item, order: "asc" });
     }
   };
+  const renderSortArrow = (selectedSort, currentName) => {
+    if (selectedSort.path === currentName) {
+      if (selectedSort.order === "asc") {
+        return <i className="bi bi-caret-down-fill"></i>;
+      } else {
+        return <i className="bi bi-caret-up-fill"></i>;
+      }
+    }
+    return null;
+  };
+
   return (
     <thead>
       <tr>
@@ -19,7 +29,7 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
             scope="col"
             {...{ role: columns[column].path && "button" }}
           >
-            <i className="bi bi-caret-down-fill"></i>
+            {renderSortArrow(selectedSort, columns[column].path)}
             {columns[column].name}
           </th>
         ))}
