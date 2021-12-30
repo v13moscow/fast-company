@@ -5,7 +5,7 @@ import QualityList from "./qualityList";
 import Table from "./table";
 import { Link } from "react-router-dom";
 
-const UsersTable = ({ users, onSort, selectedSort, onToggleBookMark, onDelete, ...rest }) => {
+const UsersTable = ({ users, onSort, selectedSort, onToggleBookMark, onDelete }) => {
   const columns = {
     name:
         {
@@ -43,7 +43,8 @@ const UsersTable = ({ users, onSort, selectedSort, onToggleBookMark, onDelete, .
       <Table
         onSort={onSort}
         selectedSort={selectedSort}
-        columns={columns} data={users}>
+        columns={columns}
+        data={users}>
       </Table>
     </>
   );

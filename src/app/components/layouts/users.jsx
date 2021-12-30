@@ -7,10 +7,8 @@ import GroupList from "../groupList";
 import SearchStatus from "../searchStatus";
 import UsersTable from "../usersTable";
 import _ from "lodash";
-import UserPage from "../userPage";
 
-const Users = ({ match }) => {
-  const userId = match.params.userId;
+const Users = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [professions, setProfession] = useState();
   const [selectedProf, setSelectedProf] = useState();
@@ -66,46 +64,42 @@ const Users = ({ match }) => {
     const clearFilter = () => {
       setSelectedProf();
     };
-
     return (
       <>
-        { userId
-          ? <UserPage id={userId} />
-          : <div className="d-flex">
-            {professions && (
-              <div className="d-flex flex-column flex-shrink-0 p-3">
-                <GroupList
-                  selectedItem={selectedProf}
-                  items={professions}
-                  onItemSelect={handleProfessionSelect}
-                />
-                <button className="btn btn-secondary mt-2" onClick={clearFilter}>
+        <div className="d-flex">
+          {professions && (
+            <div className="d-flex flex-column flex-shrink-0 p-3">
+              <GroupList
+                selectedItem={selectedProf}
+                items={professions}
+                onItemSelect={handleProfessionSelect}
+              />
+              <button className="btn btn-secondary mt-2" onClick={clearFilter}>
                     Очистить
-                </button>
-              </div>
+              </button>
+            </div>
+          )}
+          <div className="d-flex flex-column">
+            <SearchStatus length={count} />
+            {count > 0 && (
+              <UsersTable
+                users={usersCrop}
+                onSort={handleSort}
+                selectedSort={sortBy}
+                onDelete={handleDelete}
+                onToggleBookMark={handleToggleBookMark}
+              />
             )}
-            <div className="d-flex flex-column">
-              <SearchStatus length={count} />
-              {count > 0 && (
-                <UsersTable
-                  users={usersCrop}
-                  onSort={handleSort}
-                  selectedSort={sortBy}
-                  onDelete={handleDelete}
-                  onToggleBookMark={handleToggleBookMark}
-                />
-              )}
-              <div className="d-flex justify-content-center">
-                <Pagination
-                  itemsCount={count}
-                  pageSize={pageSize}
-                  currentPage={currentPage}
-                  onPageChange={handlePageChange}
-                />
-              </div>
+            <div className="d-flex justify-content-center">
+              <Pagination
+                itemsCount={count}
+                pageSize={pageSize}
+                currentPage={currentPage}
+                onPageChange={handlePageChange}
+              />
             </div>
           </div>
-        }
+        </div>
       </>
     );
   };
