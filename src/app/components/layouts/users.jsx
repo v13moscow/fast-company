@@ -7,11 +7,13 @@ import GroupList from "../groupList";
 import SearchStatus from "../searchStatus";
 import UsersTable from "../usersTable";
 import _ from "lodash";
+import SearchConcidence from "../searchOverlay";
 
 const Users = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [professions, setProfession] = useState();
   const [selectedProf, setSelectedProf] = useState();
+  const [searchOver, setSearchOver] = useState("");
   const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
   const pageSize = 6;
 
@@ -41,6 +43,7 @@ const Users = () => {
 
   const handleProfessionSelect = (item) => {
     setSelectedProf(item);
+    setSearchOver("");
   };
 
   const handlePageChange = (pageIndex) => {
@@ -51,18 +54,29 @@ const Users = () => {
   };
 
   if (users) {
+    const searchUpperCase = searchOver.toUpperCase();
+    const overFiltered = users.filter((user) =>
+      user.name.toUpperCase().includes(searchUpperCase)
+    );
     const filteredUsers = selectedProf
-      ? users.filter(
+      ? overFiltered.filter(
         (user) =>
           JSON.stringify(user.profession) === JSON.stringify(selectedProf)
       )
-      : users;
+      : overFiltered;
 
     const count = filteredUsers.length;
     const sortedUsers = _.orderBy(filteredUsers, [sortBy.path], [sortBy.order]);
     const usersCrop = paginate(sortedUsers, currentPage, pageSize);
     const clearFilter = () => {
       setSelectedProf();
+    };
+    const handleSortBy = (over) => {
+      setSearchOver(over);
+      setSelectedProf();
+    };
+    const onSearch = (e) => {
+      handleSortBy(e.target.value);
     };
     return (
       <>
@@ -81,6 +95,10 @@ const Users = () => {
           )}
           <div className="d-flex flex-column">
             <SearchStatus length={count} />
+            <SearchConcidence
+              onSearch={onSearch}
+              searchOver={searchOver}
+            />
             {count > 0 && (
               <UsersTable
                 users={usersCrop}
